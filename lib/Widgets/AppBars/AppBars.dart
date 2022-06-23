@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../screens/Settings.dart';
 
 class AppBars extends StatefulWidget implements PreferredSizeWidget{
   @override
@@ -15,20 +16,27 @@ var menuItems = <String>[
   'Settings',
   'Help',
 ];
-void selectItem(item) {
+void selectItem(item,context) {
   switch (item) {
     case 'Settings':
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Settings()),
+      );
       break;
     case 'Help':
       break;
   }
 }
-AppBar defaultBar(String text) {
+AppBar defaultBar(String text, BuildContext context) {
   return AppBar(
     title: Text(text),
     actions: <Widget>[
       PopupMenuButton<String>(
-          onSelected: selectItem,
+          onSelected:(item){
+            selectItem(item, context);
+          },
           itemBuilder: (BuildContext context) {
             return menuItems.map((String item) {
               return PopupMenuItem<String>(
@@ -40,10 +48,19 @@ AppBar defaultBar(String text) {
     ],
   );
 }
+AppBar settingsBar(String text) {
+  return AppBar(
+    title: Text(text),
+  );
+}
 
 class _AppBarsState extends State<AppBars> {
   @override
   Widget build(BuildContext context) {
-   return defaultBar(widget.title);
+    switch (widget.ID) {
+      case 2:
+        return settingsBar(widget.title);
+    }
+   return defaultBar(widget.title, context);
   }
 }

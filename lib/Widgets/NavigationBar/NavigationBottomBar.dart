@@ -57,6 +57,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
   }
 
   PersistentTabView BottomNavigationBarBuilder(context) {
+
       return PersistentTabView(
         context,
         hideNavigationBar: hideNavigationBar,

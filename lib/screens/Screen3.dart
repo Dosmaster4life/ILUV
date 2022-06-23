@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Widgets/AppBars/AppBars.dart';
+
 class Screen3 extends StatefulWidget {
   const Screen3({Key? key}) : super(key: key);
 
@@ -11,10 +13,8 @@ class Screen3 extends StatefulWidget {
 class _Screen3State extends State<Screen3> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Post"),
-      ),
+    return const Scaffold(
+      appBar: AppBars(ID: 0,title:"Home"),
     );
   }
 }

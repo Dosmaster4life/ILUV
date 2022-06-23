@@ -14,7 +14,7 @@ class _Screen2State extends State<Screen2> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      appBar: AppBars(ID: 0,title:"Home"),
+      appBar: AppBars(ID: 0,title:"Forum"),
     );
   }
 }

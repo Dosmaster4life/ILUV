@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iluv/screens/KioskPlayer.dart';
 import '../../screens/Settings.dart';
 
 class AppBars extends StatefulWidget implements PreferredSizeWidget{
@@ -26,6 +27,10 @@ void selectItem(item,context) {
       );
       break;
     case 'Help':
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const KioskPlayer()),
+      );
       break;
   }
 }

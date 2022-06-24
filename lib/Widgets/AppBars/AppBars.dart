@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iluv/screens/CreateItem.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
 import '../../screens/Settings.dart';
 
@@ -13,11 +14,12 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget{
   @override
   State<AppBars> createState() => _AppBarsState();
 }
-var menuItems = <String>[
+var generalMenuItems = <String>[
   'Settings',
-  'Help',
+  'Video',
+  'Create Item'
 ];
-void selectItem(item,context) {
+void selectGeneralItem(item,context) {
   switch (item) {
     case 'Settings':
 
@@ -26,24 +28,40 @@ void selectItem(item,context) {
         MaterialPageRoute(builder: (context) => const Settings()),
       );
       break;
-    case 'Help':
+    case 'Video':
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const KioskPlayer()),
       );
       break;
+    case 'Create Item':
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const CreateItem()),
+      );
+      break;
   }
 }
+var creationMenuItems = <String>[
+  'Delete',
+];
+void deleteCreationItem(item,context) {
+  switch (item) {
+    case 'Delete':
+
+  }
+}
+
 AppBar defaultBar(String text, BuildContext context) {
   return AppBar(
     title: Text(text),
     actions: <Widget>[
       PopupMenuButton<String>(
           onSelected:(item){
-            selectItem(item, context);
+            selectGeneralItem(item, context);
           },
           itemBuilder: (BuildContext context) {
-            return menuItems.map((String item) {
+            return generalMenuItems.map((String item) {
               return PopupMenuItem<String>(
                 value: item,
                 child: Text(item),
@@ -58,6 +76,25 @@ AppBar settingsBar(String text) {
     title: Text(text),
   );
 }
+AppBar CreationBar(String text, BuildContext context) {
+  return AppBar(
+    title: Text(text),
+    actions: <Widget>[
+      PopupMenuButton<String>(
+          onSelected:(item){
+            deleteCreationItem(item, context);
+          },
+          itemBuilder: (BuildContext context) {
+            return creationMenuItems.map((String item) {
+              return PopupMenuItem<String>(
+                value: item,
+                child: Text(item),
+              );
+            }).toList();
+          })
+    ],
+  );
+}
 
 class _AppBarsState extends State<AppBars> {
   @override
@@ -65,7 +102,12 @@ class _AppBarsState extends State<AppBars> {
     switch (widget.ID) {
       case 2:
         return settingsBar(widget.title);
+        break;
+      case 3:
+        return CreationBar(widget.title, context);
+        break;
     }
+    
    return defaultBar(widget.title, context);
   }
 }

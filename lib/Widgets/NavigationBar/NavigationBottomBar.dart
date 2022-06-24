@@ -10,11 +10,13 @@ class NavigationBottomBar extends StatefulWidget {
   const NavigationBottomBar({Key? key, required this.hideB}) : super(key: key);
   final bool hideB;
   @override
+
   _NavigationBottomBarState createState() => _NavigationBottomBarState();
 }
-
+bool hideNavigationBar = false;
 class _NavigationBottomBarState extends State<NavigationBottomBar> {
-  bool hideNavigationBar = false;
+
+
   final PersistentTabController _navigationController =
   PersistentTabController(initialIndex: 0);
   List<Widget> screenList = <Widget>[
@@ -24,8 +26,8 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
     const Screen3()
   ];
 
-  void hideNavigationBottomBar() {
-    hideNavigationBar = true;
+  void hideShowNavigationBottomBar() {
+    hideNavigationBar = !hideNavigationBar;
     setState(() {});
   }
 
@@ -60,7 +62,7 @@ class _NavigationBottomBarState extends State<NavigationBottomBar> {
 
       return PersistentTabView(
         context,
-        hideNavigationBar: hideNavigationBar,
+        hideNavigationBar: true,
         controller: _navigationController,
         screens: _screenList(),
         items: _navigationItems(),

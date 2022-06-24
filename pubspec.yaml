@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   persistent_bottom_nav_bar: any
   youtube_player_iframe: ^2.3.0
+  easy_sidemenu: ^0.3.1
 
 dev_dependencies:
   flutter_test:

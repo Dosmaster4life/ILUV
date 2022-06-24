@@ -16,7 +16,7 @@ class _KioskPlayerState extends State<KioskPlayer> {
       initialVideoId: 'K18cpp_-gP8',
       params: const YoutubePlayerParams(
         playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'], // Defining custom playlist
-        startAt: Duration(seconds: 30),
+        startAt: Duration(seconds: 0),
         showControls: true,
         showFullscreenButton: true,
         autoPlay: true,

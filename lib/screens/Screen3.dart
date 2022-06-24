@@ -11,11 +11,10 @@ class Screen3 extends StatefulWidget {
 }
 
 class _Screen3State extends State<Screen3> {
-
   @override
   Widget build(BuildContext context) {
-    return  const Scaffold(
-      appBar: AppBars(ID: 0,title:"Post"),
+    return const Scaffold(
+      appBar: AppBars(ID: 0, title: "Post"),
     );
   }
 }

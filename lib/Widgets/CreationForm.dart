@@ -12,60 +12,47 @@ class _CreationFormState extends State<CreationForm> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Row (
-          mainAxisAlignment: MainAxisAlignment.start,
-
-          children: [
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
         Expanded(
-           child: Column(
-
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Container()),
-                ElevatedButton.icon(
-                  onPressed: () => {
-                  }, icon: Icon(Icons.upload_sharp), label: Text("Upload Video"),),
-                Expanded(
-                  flex: 3,
-                    child: Container()),
-                ElevatedButton.icon(
-                  onPressed: () => {
-                  }, icon: Icon(Icons.save), label: Text("Save"),),
-
-              ],
-
-            )),
-            Expanded(
-           child: Column(
-              children:   [
-
-                Text("Title"),
-                TextField(
-                ),
-                Text("Description"),
-                TextFormField(
-                  keyboardType: TextInputType.text,
-                    maxLines: 5,
-                ),
-                Text("Youtube Link"),
-                TextField(
-
-                ),
-                Expanded(
-                  flex: 3,
-                    child: Container()),
-
-                 ElevatedButton.icon(
-                        onPressed: () => {
-                        }, icon: Icon(Icons.cancel), label: Text("Cancle"),),
-
-
-              ],
-            ))
-        ],
-
-    )
-    );
+            child: Column(
+          children: [
+            Expanded(flex: 1, child: Container()),
+            ElevatedButton.icon(
+              onPressed: () => {},
+              icon: Icon(Icons.upload_sharp),
+              label: Text("Upload Video"),
+            ),
+            Expanded(flex: 3, child: Container()),
+            ElevatedButton.icon(
+              onPressed: () => {},
+              icon: Icon(Icons.save),
+              label: Text("Save"),
+            ),
+          ],
+        )),
+        Expanded(
+            child: Column(
+          children: [
+            Text("Title"),
+            TextField(),
+            Text("Description"),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              maxLines: 5,
+            ),
+            Text("Youtube Link"),
+            TextField(),
+            Expanded(flex: 3, child: Container()),
+            ElevatedButton.icon(
+              onPressed: () => {},
+              icon: Icon(Icons.cancel),
+              label: Text("Cancle"),
+            ),
+          ],
+        ))
+      ],
+    ));
   }
 }

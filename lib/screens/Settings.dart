@@ -16,7 +16,6 @@ class _SettingsState extends State<Settings> {
     hideNavigationBar = true;
 
     return const Scaffold(
-
       appBar: AppBars(ID: 2, title: "Settings"),
     );
   }

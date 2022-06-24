@@ -15,7 +15,8 @@ class _KioskPlayerState extends State<KioskPlayer> {
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: 'K18cpp_-gP8',
       params: const YoutubePlayerParams(
-        playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'], // Defining custom playlist
+        playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'],
+        // Defining custom playlist
         startAt: Duration(seconds: 0),
         showControls: true,
         showFullscreenButton: true,
@@ -26,16 +27,15 @@ class _KioskPlayerState extends State<KioskPlayer> {
       ),
     );
     return Scaffold(
-      body:
-        SizedBox(
-        child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-        Expanded(
-   child: YoutubePlayerIFrame(
-      controller: _controller,
-    )),
-    ])));
+        body: SizedBox(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+          Expanded(
+              child: YoutubePlayerIFrame(
+            controller: _controller,
+          )),
+        ])));
   }
 }

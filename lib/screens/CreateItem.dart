@@ -15,7 +15,10 @@ class _CreateItemState extends State<CreateItem> {
   Widget build(BuildContext context) {
     return const Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBars(ID: 3,title: "Add Video",),
+      appBar: AppBars(
+        ID: 3,
+        title: "Add Video",
+      ),
       body: CreationForm(),
     );
   }

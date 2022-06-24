@@ -48,7 +48,7 @@ class _CreationFormState extends State<CreationForm> {
             ElevatedButton.icon(
               onPressed: () => {},
               icon: Icon(Icons.cancel),
-              label: Text("Cancle"),
+              label: Text("Cancel"),
             ),
           ],
         ))

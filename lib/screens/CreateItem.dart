@@ -14,6 +14,7 @@ class _CreateItemState extends State<CreateItem> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBars(ID: 3,title: "Add Video",),
       body: CreationForm(),
     );

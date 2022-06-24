@@ -45,7 +45,8 @@ class _CreationFormState extends State<CreationForm> {
                 ),
                 Text("Description"),
                 TextFormField(
-                maxLines: 10,
+                  keyboardType: TextInputType.text,
+                    maxLines: 5,
                 ),
                 Text("Youtube Link"),
                 TextField(

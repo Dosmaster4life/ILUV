@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +13,38 @@ class Screen1 extends StatefulWidget {
 }
 
 class _Screen1State extends State<Screen1> {
-  @override
+  StreamBuilder<QuerySnapshot> buildStreamBuilder() {
+    String user = FirebaseAuth.instance.currentUser!.uid;
+    return StreamBuilder<QuerySnapshot>(
+    stream: FirebaseFirestore.instance.collection(user).snapshots(),
+    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      if (snapshot.hasError) {
+        return Text('Something went wrong');
+      }
 
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Text("Loading");
+      }
+
+      return ListView(
+        children: snapshot.data!.docs.map((document) {
+            return Card(
+                child: ListTile(
+                  onTap: () async {
+
+                  },
+                  title: new Text(document["Title"]),
+                ));
+        }).toList(),
+      );
+    }
+
+    );
+  }
 
   Widget build(BuildContext context) {
     return  Scaffold(
-      body: ListView(
-
-      ),
+      body: buildStreamBuilder(),
       appBar: AppBars(ID: 0, title: "Home"),
 
     );

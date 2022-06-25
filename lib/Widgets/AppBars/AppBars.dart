@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/screens/CreateItem.dart';
+import 'package:iluv/screens/KioskMode.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
 import 'package:iluv/screens/SignIn.dart';
 
@@ -20,7 +21,7 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
   State<AppBars> createState() => _AppBarsState();
 }
 
-var generalMenuItems = <String>['Settings', 'Video', 'Create Item', 'Logout'];
+var generalMenuItems = <String>['Settings', 'Video', 'Create Item','Kiosk Mode', 'Logout'];
 Future<void> signOut(BuildContext context) async {
   await FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
       context,
@@ -50,6 +51,13 @@ void selectGeneralItem(item, context) {
     case 'Logout':
      signOut(context);
       break;
+      case 'Kiosk Mode':
+        // In the future, we need to change a firebase variable to only allow view access in Kiosk Mode.
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const KioskMode()),
+        );
+
   }
 
 }

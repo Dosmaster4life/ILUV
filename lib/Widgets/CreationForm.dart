@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/Home.dart';
 
 class CreationForm extends StatefulWidget {
   const CreationForm({Key? key}) : super(key: key);
@@ -10,7 +14,31 @@ class CreationForm extends StatefulWidget {
 
 class _CreationFormState extends State<CreationForm> {
   @override
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final urlController = TextEditingController();
+  
+  Future<void> saveItem() async {
+    DocumentReference createPost = FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc();
+
+    return createPost.set({
+      'URL': urlController.text,
+      'Title': titleController.text,
+      'Description': descriptionController.text,
+      'Coordinates': ("0:0"),
+      'Time Created': Timestamp.now(),
+    }, SetOptions(merge: true))
+        .then((value) =>  Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const Home())));
+  }
+
+
   Widget build(BuildContext context) {
+
     return SafeArea(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -19,14 +47,12 @@ class _CreationFormState extends State<CreationForm> {
             child: Column(
           children: [
             Expanded(flex: 1, child: Container()),
-            ElevatedButton.icon(
-              onPressed: () => {},
-              icon: Icon(Icons.upload_sharp),
-              label: Text("Upload Video"),
-            ),
+
             Expanded(flex: 3, child: Container()),
             ElevatedButton.icon(
-              onPressed: () => {},
+              onPressed: () => {
+                saveItem(),
+              },
               icon: Icon(Icons.save),
               label: Text("Save"),
             ),
@@ -36,17 +62,25 @@ class _CreationFormState extends State<CreationForm> {
             child: Column(
           children: [
             Text("Title"),
-            TextField(),
+            TextField(
+              controller: titleController,
+            ),
             Text("Description"),
             TextFormField(
+              controller: descriptionController,
               keyboardType: TextInputType.text,
               maxLines: 5,
             ),
             Text("Youtube Link"),
-            TextField(),
+            TextField(
+              controller: urlController,
+            ),
             Expanded(flex: 3, child: Container()),
             ElevatedButton.icon(
-              onPressed: () => {},
+              onPressed: () => {
+    MaterialPageRoute(
+    builder: (context) => const Home())
+              },
               icon: Icon(Icons.cancel),
               label: Text("Cancel"),
             ),

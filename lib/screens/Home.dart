@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../Widgets/NavigationBar/NavigationBottomBar.dart';
+import 'package:iluv/screens/Screen1.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,12 +12,12 @@ class Home extends StatefulWidget {
 int currentPage = 0;
 
 List<Widget> listOfScreen = <Widget>[
-  const NavigationBottomBar(hideB: false),
+  // const NavigationBottomBar(hideB: false),
 ];
 
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: listOfScreen.elementAt(currentPage));
+    return MaterialApp(home: Screen1());
   }
 }

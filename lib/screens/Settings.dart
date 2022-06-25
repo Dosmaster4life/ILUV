@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/Widgets/AppBars/AppBars.dart';
-import 'package:iluv/Widgets/NavigationBar/NavigationBottomBar.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -13,7 +12,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-    hideNavigationBar = true;
+
 
     return const Scaffold(
       appBar: AppBars(ID: 2, title: "Settings"),

@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/screens/CreateItem.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
+import 'package:iluv/screens/SignIn.dart';
 
 import '../../screens/Settings.dart';
 
@@ -18,8 +20,13 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
   State<AppBars> createState() => _AppBarsState();
 }
 
-var generalMenuItems = <String>['Settings', 'Video', 'Create Item'];
-
+var generalMenuItems = <String>['Settings', 'Video', 'Create Item', 'Logout'];
+Future<void> signOut(BuildContext context) async {
+  await FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const SignIn())));
+}
 void selectGeneralItem(item, context) {
   switch (item) {
     case 'Settings':
@@ -40,7 +47,11 @@ void selectGeneralItem(item, context) {
         MaterialPageRoute(builder: (context) => const CreateItem()),
       );
       break;
+    case 'Logout':
+     signOut(context);
+      break;
   }
+
 }
 
 var creationMenuItems = <String>[

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:iluv/screens/KioskMode.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
 import 'package:iluv/screens/SignIn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../screens/Settings.dart';
 
@@ -22,6 +23,8 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
 
 var generalMenuItems = <String>['Settings', 'Video','Kiosk Mode', 'Logout'];
 Future<void> signOut(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool("isLoggedIn", false);
   await FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
       context,
       MaterialPageRoute(

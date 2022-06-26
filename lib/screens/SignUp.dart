@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home.dart';
 import 'SignIn.dart';
@@ -70,6 +71,8 @@ class _SignUpState extends State<SignUp> {
                             email: loginEmail,
                             password: Password,
                           );
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          prefs.setBool("isLoggedIn", true);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

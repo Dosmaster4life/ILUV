@@ -67,14 +67,13 @@ class _SignInState extends State<SignIn> {
                       ),
                       onPressed: () async {
                         if (loginEmail == null) {
-                        }
-                        else {
+                        } else {
                           try {
-                            UserCredential login = await FirebaseAuth
-                                .instance
+                            UserCredential login = await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                                     email: loginEmail, password: Password);
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             prefs.setBool("isLoggedIn", true);
                             Navigator.pushReplacement(
                                 context,
@@ -98,7 +97,8 @@ class _SignInState extends State<SignIn> {
                               fontSize: 14))),
                   onTap: () => {
                         if (loginEmail.isNotEmpty &&
-                        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(loginEmail))
+                            RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(loginEmail))
                           {
                             setState(() {
                               passwordReset(loginEmail);

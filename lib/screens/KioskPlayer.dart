@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class KioskPlayer extends StatefulWidget {
-  const KioskPlayer({Key? key}) : super(key: key);
+  final String video;
+  const KioskPlayer({Key? key, required this.video}) : super(key: key);
 
   @override
   State<KioskPlayer> createState() => _KioskPlayerState();
@@ -12,16 +13,20 @@ class KioskPlayer extends StatefulWidget {
 class _KioskPlayerState extends State<KioskPlayer> {
   @override
   Widget build(BuildContext context) {
+    String videoURL = widget.video ?? "";
+    String? finalVideoURL = YoutubePlayerController.convertUrlToId(videoURL);
     YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: 'aJfhoAzST3A',
+
+      initialVideoId: finalVideoURL ?? "OjzlfDAy1hM",
       params: const YoutubePlayerParams(
-        startAt: Duration(seconds: 0),
-        showControls: true,
-        showFullscreenButton: true,
         autoPlay: true,
+        startAt: Duration(seconds: 0),
+
+        showControls: false,
+        showFullscreenButton: true,
+        enableJavaScript: true,
 
 
-        desktopMode: true,
       ),
     );
     return Scaffold(

@@ -13,15 +13,13 @@ class _KioskPlayerState extends State<KioskPlayer> {
   @override
   Widget build(BuildContext context) {
     YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: 'K18cpp_-gP8',
+      initialVideoId: 'aJfhoAzST3A',
       params: const YoutubePlayerParams(
-        playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'],
-        // Defining custom playlist
         startAt: Duration(seconds: 0),
         showControls: true,
         showFullscreenButton: true,
         autoPlay: true,
-        strictRelatedVideos: true,
+
 
         desktopMode: true,
       ),
@@ -34,6 +32,7 @@ class _KioskPlayerState extends State<KioskPlayer> {
                 children: <Widget>[
           Expanded(
               child: YoutubePlayerIFrame(
+
             controller: _controller,
           )),
         ])));

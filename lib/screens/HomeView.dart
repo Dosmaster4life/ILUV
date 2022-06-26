@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../Widgets/AppBars/AppBars.dart';
+import 'CreateItem.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({Key? key}) : super(key: key);
@@ -45,6 +46,16 @@ class _Screen1State extends State<Screen1> {
   Widget build(BuildContext context) {
     return  Scaffold(
       body: buildStreamBuilder(),
+      floatingActionButton: FloatingActionButton(
+        child:  Icon(Icons.add),
+        onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CreateItem()),
+        );
+      },
+
+      ),
       appBar: AppBars(ID: 0, title: "Home"),
 
     );

@@ -6,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/Widgets/CreationForm.dart';
 import '../Widgets/AppBars/AppBars.dart';
-import 'KioskPlayer2.dart';
+import 'KioskPlayer.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class KioskMode extends StatefulWidget {
   const KioskMode({Key? key}) : super(key: key);
@@ -34,7 +35,15 @@ class _KioskModeState extends State<KioskMode> {
               Expanded(
                   child: ListView(
                       children: snapshot.data!.docs.map((document) {
+                String finalVideoURL = "";
                 try {
+                  var videoURL = document["URL"] ?? "";
+                  finalVideoURL =
+                      YoutubePlayerController.convertUrlToId(videoURL) ?? "";
+                } catch (e) {}
+                try {
+                  String url = YoutubePlayerController.getThumbnail(
+                      videoId: finalVideoURL, webp: false);
                   return Card(
                       child: ListTile(
                           onTap: () async {
@@ -46,14 +55,16 @@ class _KioskModeState extends State<KioskMode> {
                             );
                           },
                           title: Text(document["Title"]),
+                          leading: Image(image: NetworkImage(url)),
                           trailing: IconButton(
                             icon: Icon(Icons.play_arrow),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => KioskPlayer2(
+                                    builder: (context) => KioskPlayer(
                                           video: document["URL"],
+                                          playlistP: [],
                                         )),
                               );
                             },

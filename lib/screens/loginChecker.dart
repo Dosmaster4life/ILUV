@@ -18,7 +18,7 @@ class _loginCheckerState extends State<loginChecker> {
   int currentPage = 0;
 
   Future<void> checkSignedIn() async {
-    if (FirebaseAuth.instance.currentUser != null || loggedIn!) {
+    if (FirebaseAuth.instance.currentUser != null || loggedIn) {
       // check if user is in kiosk mode next through firebase
       currentPage = 1;
       setState(() {});
@@ -36,16 +36,14 @@ class _loginCheckerState extends State<loginChecker> {
         .doc("Admin")
         .get();
 
-    if(docSnapshot.exists) {
-
-    }
-    else {
-      FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid).doc("Admin").set(
-          {
-            "Video" : "",
-
-          }).then((value){
-      });
+    if (docSnapshot.exists) {
+    } else {
+      FirebaseFirestore.instance
+          .collection(FirebaseAuth.instance.currentUser!.uid)
+          .doc("Admin")
+          .set({
+        "Video": "",
+      }).then((value) {});
     }
   }
 

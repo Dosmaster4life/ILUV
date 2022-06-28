@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +30,28 @@ class _loginCheckerState extends State<loginChecker> {
     const SignIn(),
     const Home(),
   ];
+  Future<void> firstRun() async {
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc("Admin")
+        .get();
+
+    if(docSnapshot.exists) {
+
+    }
+    else {
+      FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid).doc("Admin").set(
+          {
+            "Video" : "",
+
+          }).then((value){
+      });
+    }
+  }
 
   Widget build(BuildContext context) {
     checkSignedIn();
+    firstRun();
     return MaterialApp(home: screensToReturn.elementAt(currentPage));
   }
 }

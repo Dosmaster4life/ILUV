@@ -30,26 +30,31 @@ class _Screen1State extends State<Screen1> {
 
           return ListView(
             children: snapshot.data!.docs.map((document) {
-              return Card(
-                  child: ListTile(
-                onTap: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreationForm(
-                            documentExistString: document.id ?? "")),
-                  );
-                },
-                title: new Text(document["Title"]),
-                    trailing: IconButton(
-                      icon: Icon(Icons.play_arrow), onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"],)),
-                      );
-                    },
-                    )
-              ));
+              try {
+                return Card(
+                    child: ListTile(
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreationForm(
+                                    documentExistString: document.id ?? "")),
+                          );
+                        },
+                        title: new Text(document["Title"]),
+                        trailing: IconButton(
+                          icon: Icon(Icons.play_arrow), onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"])),
+                          );
+                        },
+                        )
+                    ));
+              }catch(e) {
+                return Container();
+              }
+
             }).toList(),
           );
         });

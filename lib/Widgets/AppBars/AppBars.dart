@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iluv/screens/AdminViewMode.dart';
 import 'package:iluv/screens/KioskMode.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
 import 'package:iluv/screens/SignIn.dart';
@@ -21,7 +22,7 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
   State<AppBars> createState() => _AppBarsState();
 }
 
-var generalMenuItems = <String>['Settings', 'Video', 'Kiosk Mode', 'Logout'];
+var generalMenuItems = <String>['Settings', 'Video', 'Kiosk Mode', 'Logout','View Mode'];
 
 Future<void> signOut(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,7 +43,7 @@ void selectGeneralItem(item, context) {
     case 'Video':
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const KioskPlayer(video: "OjzlfDAy1hM",)),
+        MaterialPageRoute(builder: (context) =>  KioskPlayer(video: "OjzlfDAy1hM")),
       );
       break;
     case 'Logout':
@@ -54,6 +55,11 @@ void selectGeneralItem(item, context) {
         context,
         MaterialPageRoute(builder: (context) => const KioskMode()),
       );
+      break;
+    case 'View Mode':
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AdminViewMode()));
   }
 }
 

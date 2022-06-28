@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/Widgets/CreationForm.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
@@ -44,9 +45,10 @@ class _Screen1State extends State<Screen1> {
                         title: new Text(document["Title"]),
                         trailing: IconButton(
                           icon: Icon(Icons.play_arrow), onPressed: () {
+                          String d = YoutubePlayerController.convertUrlToId(document["URL"]) ?? "";
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"], playlistP: [],)),
+                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"], playlistP: [d],)),
                           );
                         },
                         )

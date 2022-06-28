@@ -31,7 +31,7 @@ class _KioskPlayerState extends State<KioskPlayer> {
     String? finalVideoURL = YoutubePlayerController.convertUrlToId(videoURL);
 
      _controller = YoutubePlayerController(
-      initialVideoId: finalVideoURL ?? "OjzlfDAy1hM",
+      initialVideoId: widget.video ?? "OjzlfDAy1hM",
       params:  YoutubePlayerParams(
          playlist: widget.playlistP,
         autoPlay: true,

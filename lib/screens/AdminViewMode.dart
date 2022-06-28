@@ -61,8 +61,12 @@ class _AdminViewModeState extends State<AdminViewMode> {
 
         }
         debugPrint(snapshot.data!["Video"]);
+        String? d = YoutubePlayerController.convertUrlToId(snapshot.data!["Video"]) ?? "";
+        List<String> temp = [d];
+        List<String> playList = temp + playlistPa;
+
         try {
-          return  KioskPlayer(key: ValueKey(snapshot.data!["Video"]),video: snapshot.data!["Video"], playlistP: playlistPa);
+          return  KioskPlayer(key: ValueKey(snapshot.data!["Video"]),video: snapshot.data!["Video"], playlistP: playList);
         }catch(e) {
           return Text(snapshot.data!["Video"]);
         }

@@ -43,7 +43,7 @@ void selectGeneralItem(item, context) {
     case 'Video':
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  KioskPlayer(video: "OjzlfDAy1hM")),
+        MaterialPageRoute(builder: (context) =>  KioskPlayer(video: "OjzlfDAy1hM", playlistP: [])),
       );
       break;
     case 'Logout':

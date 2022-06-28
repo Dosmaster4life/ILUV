@@ -46,7 +46,7 @@ class _Screen1State extends State<Screen1> {
                           icon: Icon(Icons.play_arrow), onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"])),
+                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"], playlistP: [],)),
                           );
                         },
                         )

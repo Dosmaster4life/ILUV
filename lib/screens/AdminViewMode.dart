@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class AdminViewMode extends StatefulWidget {
   const AdminViewMode({Key? key}) : super(key: key);
@@ -19,7 +20,31 @@ class _AdminViewModeState extends State<AdminViewMode> {
   final Stream<DocumentSnapshot> _usersStream2 =
   FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid).doc("Admin").snapshots(includeMetadataChanges: true);
   String oldVideo = "";
+
+  List<String> playlistPa = [];
+  void  buildPlaylist() {
+
+    FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+
+      querySnapshot.docs.forEach((doc) {
+        try {
+          String? adder = YoutubePlayerController.convertUrlToId(doc["URL"]);
+          playlistPa.add(adder!.toString());
+        }catch(e) {
+
+        }
+
+      });
+
+
+    });
+
+  }
   Widget build(BuildContext context) {
+    buildPlaylist();
     return StreamBuilder<DocumentSnapshot>(
       stream: _usersStream2,
       builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -37,7 +62,7 @@ class _AdminViewModeState extends State<AdminViewMode> {
         }
         debugPrint(snapshot.data!["Video"]);
         try {
-          return  KioskPlayer(key: ValueKey(snapshot.data!["Video"]),video: snapshot.data!["Video"]);
+          return  KioskPlayer(key: ValueKey(snapshot.data!["Video"]),video: snapshot.data!["Video"], playlistP: playlistPa);
         }catch(e) {
           return Text(snapshot.data!["Video"]);
         }

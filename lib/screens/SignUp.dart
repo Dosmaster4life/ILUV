@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home.dart';
 import 'SignIn.dart';
@@ -62,14 +63,15 @@ class _SignUpState extends State<SignUp> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {
-
                         try {
-                          UserCredential login = await FirebaseAuth
-                              .instance
+                          UserCredential login = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                             email: loginEmail,
                             password: Password,
                           );
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setBool("isLoggedIn", true);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -111,6 +113,7 @@ class _SignUpState extends State<SignUp> {
           ))
         ]));
   }
+
   Widget build(BuildContext context) {
     return settingsList();
   }

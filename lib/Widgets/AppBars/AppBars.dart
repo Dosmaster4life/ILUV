@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:iluv/screens/CreateItem.dart';
+import 'package:iluv/screens/AdminViewMode.dart';
 import 'package:iluv/screens/KioskMode.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
 import 'package:iluv/screens/SignIn.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../screens/Settings.dart';
 
@@ -21,13 +22,16 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
   State<AppBars> createState() => _AppBarsState();
 }
 
-var generalMenuItems = <String>['Settings', 'Video', 'Create Item','Kiosk Mode', 'Logout'];
+var generalMenuItems = <String>['Settings', 'Video', 'Kiosk Mode', 'Logout','View Mode'];
+
 Future<void> signOut(BuildContext context) async {
-  await FirebaseAuth.instance.signOut().then((value) => Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => const SignIn())));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setBool("isLoggedIn", false);
+  await FirebaseAuth.instance.signOut().then((value) =>
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const SignIn())));
 }
+
 void selectGeneralItem(item, context) {
   switch (item) {
     case 'Settings':
@@ -39,38 +43,31 @@ void selectGeneralItem(item, context) {
     case 'Video':
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const KioskPlayer()),
-      );
-      break;
-    case 'Create Item':
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const CreateItem()),
+        MaterialPageRoute(builder: (context) =>  KioskPlayer(video: "OjzlfDAy1hM", playlistP: [])),
       );
       break;
     case 'Logout':
-     signOut(context);
+      signOut(context);
       break;
-      case 'Kiosk Mode':
-        // In the future, we need to change a firebase variable to only allow view access in Kiosk Mode.
-        Navigator.push(
+    case 'Kiosk Mode':
+      // In the future, we need to change a firebase variable to only allow view access in Kiosk Mode.
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const KioskMode()),
+      );
+      break;
+    case 'View Mode':
+      Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const KioskMode()),
-        );
-
+          MaterialPageRoute(builder: (context) => const AdminViewMode()));
   }
-
 }
 
 var creationMenuItems = <String>[
   'Delete',
 ];
 
-void deleteCreationItem(item, context) {
-  switch (item) {
-    case 'Delete':
-  }
-}
+
 
 AppBar defaultBar(String text, BuildContext context) {
   return AppBar(
@@ -99,18 +96,6 @@ AppBar settingsBar(String text) {
 AppBar CreationBar(String text, BuildContext context) {
   return AppBar(
     title: Text(text),
-    actions: <Widget>[
-      PopupMenuButton<String>(onSelected: (item) {
-        deleteCreationItem(item, context);
-      }, itemBuilder: (BuildContext context) {
-        return creationMenuItems.map((String item) {
-          return PopupMenuItem<String>(
-            value: item,
-            child: Text(item),
-          );
-        }).toList();
-      })
-    ],
   );
 }
 

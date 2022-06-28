@@ -12,8 +12,6 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
-
-
     return const Scaffold(
       appBar: AppBars(ID: 2, title: "Settings"),
     );

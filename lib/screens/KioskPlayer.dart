@@ -1,31 +1,54 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
+import '../Widgets/CreationForm.dart';
+
 class KioskPlayer extends StatefulWidget {
-  const KioskPlayer({Key? key}) : super(key: key);
+  final String video;
+  final List<String> playlistP;
+   KioskPlayer({Key? key, required this.video,required this.playlistP}) : super(key: key);
 
   @override
   State<KioskPlayer> createState() => _KioskPlayerState();
 }
 
+
+
 class _KioskPlayerState extends State<KioskPlayer> {
   @override
+  bool checkUpdater = true;
+  late YoutubePlayerController _controller;
+  String currentVideo = "";
+
+
+  bool hasRun = false;
   Widget build(BuildContext context) {
-    YoutubePlayerController _controller = YoutubePlayerController(
-      initialVideoId: 'K18cpp_-gP8',
-      params: const YoutubePlayerParams(
-        playlist: ['nPt8bK2gbaU', 'gQDByCdjUXw'],
-        // Defining custom playlist
+    debugPrint(widget.playlistP.toString());
+    String videoURL = widget.video ?? "";
+    String? finalVideoURL = YoutubePlayerController.convertUrlToId(videoURL);
+
+     _controller = YoutubePlayerController(
+      initialVideoId: widget.video ?? "ILCDfIBn1fw",
+      params:  YoutubePlayerParams(
+         playlist: widget.playlistP ?? ['ILCDfIBn1fw'],
+        autoPlay: true,
+        loop: true,
+        mute: false,
+
+
+
         startAt: Duration(seconds: 0),
         showControls: true,
-        showFullscreenButton: true,
-        autoPlay: true,
-        strictRelatedVideos: true,
 
-        desktopMode: true,
+
       ),
     );
+
+
+
     return Scaffold(
         body: SizedBox(
             child: Column(
@@ -33,9 +56,13 @@ class _KioskPlayerState extends State<KioskPlayer> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
           Expanded(
+              child: YoutubePlayerControllerProvider( // Provides controller to all the widget below it.
+              controller: _controller,
               child: YoutubePlayerIFrame(
-            controller: _controller,
-          )),
+                aspectRatio: 16 / 9,
+              ),
+            )),
         ])));
   }
+
 }

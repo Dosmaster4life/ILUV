@@ -2,8 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iluv/Widgets/CreationForm.dart';
 
 import '../Widgets/AppBars/AppBars.dart';
+import 'KioskPlayer.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({Key? key}) : super(key: key);
@@ -16,37 +18,64 @@ class _Screen1State extends State<Screen1> {
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
     String user = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
-    stream: FirebaseFirestore.instance.collection(user).snapshots(),
-    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      if (snapshot.hasError) {
-        return Text('Something went wrong');
-      }
+        stream: FirebaseFirestore.instance.collection(user).snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
 
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return Text("Loading");
-      }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
 
-      return ListView(
-        children: snapshot.data!.docs.map((document) {
-            return Card(
-                child: ListTile(
-                  onTap: () async {
+          return ListView(
+            children: snapshot.data!.docs.map((document) {
+              try {
+                return Card(
+                    child: ListTile(
+                        onTap: () async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreationForm(
+                                    documentExistString: document.id ?? "")),
+                          );
+                        },
+                        title: new Text(document["Title"]),
+                        trailing: IconButton(
+                          icon: Icon(Icons.play_arrow), onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"], playlistP: [],)),
+                          );
+                        },
+                        )
+                    ));
+              }catch(e) {
+                return Container();
+              }
 
-                  },
-                  title: new Text(document["Title"]),
-                ));
-        }).toList(),
-      );
-    }
-
-    );
+            }).toList(),
+          );
+        });
   }
 
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: buildStreamBuilder(),
-      appBar: AppBars(ID: 0, title: "Home"),
 
+    return Scaffold(
+      body: buildStreamBuilder(),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    const CreationForm(documentExistString: "")),
+          );
+        },
+      ),
+      appBar: AppBars(ID: 0, title: "Video List"),
     );
   }
 }

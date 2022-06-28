@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home.dart';
 import 'SignUp.dart';
@@ -72,7 +73,25 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () async {
-                        await LoginAction();
+                        if (loginEmail == null) {
+                        } else {
+                          try {
+                            UserCredential login = await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: loginEmail, password: Password);
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setBool("isLoggedIn", true);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Home()));
+                          } on FirebaseAuthException catch (e) {
+                            setState(() {
+                              errorMessage = 'Incorrect Credentials';
+                            });
+                          }
+                        }
                       }),
                 ),
               ]),

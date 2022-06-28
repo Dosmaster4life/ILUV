@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/Widgets/CreationForm.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
@@ -15,6 +16,24 @@ class Screen1 extends StatefulWidget {
 }
 
 class _Screen1State extends State<Screen1> {
+  Future<void> firstRun() async {
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc("Admin")
+        .get();
+
+    if(docSnapshot.exists) {
+
+    }
+    else {
+      FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid).doc("Admin").set(
+          {
+            "Video" : "",
+          }).then((value){
+      });
+    }
+  }
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
     String user = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
@@ -44,9 +63,10 @@ class _Screen1State extends State<Screen1> {
                         title: new Text(document["Title"]),
                         trailing: IconButton(
                           icon: Icon(Icons.play_arrow), onPressed: () {
+                          String d = YoutubePlayerController.convertUrlToId(document["URL"]) ?? "";
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"])),
+                            MaterialPageRoute(builder: (context) =>  KioskPlayer(video: document["URL"], playlistP: [d],)),
                           );
                         },
                         )
@@ -61,6 +81,8 @@ class _Screen1State extends State<Screen1> {
   }
 
   Widget build(BuildContext context) {
+    firstRun();
+
     return Scaffold(
       body: buildStreamBuilder(),
       floatingActionButton: FloatingActionButton(

@@ -34,6 +34,10 @@ class _SignInState extends State<SignIn> {
                 child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(hintText: "Email"),
+                    // onSubmitted: (value) {
+                    //   debugPrint("Value is" + value);
+                    //   LoginAction();
+                    // },
                     onChanged: (value) {
                       setState(() {
                         loginEmail = value.trim();
@@ -45,6 +49,9 @@ class _SignInState extends State<SignIn> {
                 child: TextField(
                     obscureText: true,
                     decoration: const InputDecoration(hintText: "Password"),
+                    onEditingComplete: () {
+                      LoginAction();
+                    },
                     onChanged: (value) {
                       setState(() {
                         Password = value.trim();
@@ -143,6 +150,24 @@ class _SignInState extends State<SignIn> {
             ],
           ))
         ]));
+  }
+
+  Future<void> LoginAction() async {
+    debugPrint("DEBUG: Logged in my dude!");
+    if (loginEmail == null) {
+    } else {
+      try {
+        UserCredential login = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: loginEmail, password: Password);
+
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const Home()));
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          errorMessage = 'Incorrect Credentials';
+        });
+      }
+    }
   }
 
   Future<void> passwordReset(String email) async {

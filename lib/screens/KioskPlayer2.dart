@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube/youtube_thumbnail.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:youtube/youtube.dart';
 
 class KioskPlayer2 extends StatefulWidget {
   final String video;
@@ -35,9 +34,6 @@ class _KioskPlayerState extends State<KioskPlayer2> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                      child: Image.network(
-                          YoutubeThumbnail(youtubeId: 'Vi-9mvSooCs').small())),
                   Text("Hello"),
                   Flexible(
                       child: YoutubePlayerIFrame(

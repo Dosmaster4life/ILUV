@@ -21,6 +21,7 @@ class _loginCheckerState extends State<loginChecker> {
     if (FirebaseAuth.instance.currentUser != null || loggedIn) {
       // check if user is in kiosk mode next through firebase
       currentPage = 1;
+
       setState(() {});
     }
   }
@@ -30,19 +31,10 @@ class _loginCheckerState extends State<loginChecker> {
     const SignIn(),
     const Home(),
   ];
-  Future<void> firstRun() async {
-      FirebaseFirestore.instance
-          .collection(FirebaseAuth.instance.currentUser!.uid)
-          .doc("Admin")
-          .set({
-        "Video": "",
-      });
 
-  }
 
   Widget build(BuildContext context) {
     checkSignedIn();
-    firstRun();
     return MaterialApp(home: screensToReturn.elementAt(currentPage));
   }
 }

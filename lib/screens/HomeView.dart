@@ -16,6 +16,24 @@ class Screen1 extends StatefulWidget {
 }
 
 class _Screen1State extends State<Screen1> {
+  Future<void> firstRun() async {
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc("Admin")
+        .get();
+
+    if(docSnapshot.exists) {
+
+    }
+    else {
+      FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid).doc("Admin").set(
+          {
+            "Video" : "",
+          }).then((value){
+      });
+    }
+  }
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
     String user = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
@@ -63,6 +81,7 @@ class _Screen1State extends State<Screen1> {
   }
 
   Widget build(BuildContext context) {
+    firstRun();
 
     return Scaffold(
       body: buildStreamBuilder(),

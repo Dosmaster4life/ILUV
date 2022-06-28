@@ -31,20 +31,13 @@ class _loginCheckerState extends State<loginChecker> {
     const Home(),
   ];
   Future<void> firstRun() async {
-    final docSnapshot = await FirebaseFirestore.instance
-        .collection(FirebaseAuth.instance.currentUser!.uid)
-        .doc("Admin")
-        .get();
-
-    if (docSnapshot.exists) {
-    } else {
       FirebaseFirestore.instance
           .collection(FirebaseAuth.instance.currentUser!.uid)
           .doc("Admin")
           .set({
         "Video": "",
-      }).then((value) {});
-    }
+      });
+
   }
 
   Widget build(BuildContext context) {

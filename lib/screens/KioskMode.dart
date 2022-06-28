@@ -33,7 +33,8 @@ class _KioskModeState extends State<KioskMode> {
             return Column(children: <Widget>[
               Expanded(
                   child: ListView(
-                children: snapshot.data!.docs.map((document) {
+                      children: snapshot.data!.docs.map((document) {
+                try {
                   return Card(
                       child: ListTile(
                           onTap: () async {
@@ -44,7 +45,7 @@ class _KioskModeState extends State<KioskMode> {
                                       documentExistString: document.id ?? "")),
                             );
                           },
-                          title: new Text(document["Title"]),
+                          title: Text(document["Title"]),
                           trailing: IconButton(
                             icon: Icon(Icons.play_arrow),
                             onPressed: () {
@@ -57,8 +58,10 @@ class _KioskModeState extends State<KioskMode> {
                               );
                             },
                           )));
-                }).toList(),
-              ))
+                } catch (e) {
+                  return Container();
+                }
+              }).toList()))
             ]);
           })));
         });

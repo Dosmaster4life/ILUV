@@ -50,47 +50,39 @@ class _KioskModeState extends State<KioskMode> {
                       quality: ThumbnailQuality.max);
                   double height = MediaQuery.of(context).size.height;
                   String description = document["Description"] ?? "";
+                  String title = document["Title"] ?? "";
 
-                  return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FlipCard(
-                        direction: FlipDirection.VERTICAL,
-                        back: Card(
-                            shadowColor: Colors.transparent,
-                            child: ListTile(
-                                minVerticalPadding: height / 5,
-                                leading: Text(description,
-                                    textAlign: TextAlign.center))),
-                        front: Card(
-                            shadowColor: Colors.transparent,
-                            child: Expanded(
-                              child: ListTile(
-                                  minVerticalPadding: height / 5,
-                                  //title: Text(document["Title"]),
-                                  trailing: GestureDetector(
-                                      onTap: () {},
-                                      child: SizedBox(
-                                        height: double.infinity,
-                                        child: Expanded(
-                                          child: Image(
-                                              fit: BoxFit.fitHeight,
-                                              image: NetworkImage(url)),
-                                        ),
-                                      )),
-                                  leading: IconButton(
-                                    icon: Icon(Icons.play_arrow),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => KioskPlayer(
-                                                  video: document["URL"],
-                                                  playlistP: [],
-                                                )),
-                                      );
-                                    },
-                                  )),
-                            )),
+                  return Card(
+                      elevation: 4.0,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(title, textAlign: TextAlign.center),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              FirebaseFirestore.instance
+                                  .collection(
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                  .doc("Admin")
+                                  .set({
+                                "Video": document["URL"],
+                              }).then((value) {});
+                            },
+                            icon: Container(
+                              height: height / 3,
+                              child: Ink.image(
+                                image: NetworkImage(url),
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(16.0),
+                            child:
+                                Text(description, textAlign: TextAlign.center),
+                          ),
+                        ],
                       ));
                 } catch (e) {
                   return Container();
@@ -104,18 +96,7 @@ class _KioskModeState extends State<KioskMode> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildStreamBuilder(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    const CreationForm(documentExistString: "")),
-          );
-        },
-      ),
-      appBar: AppBars(ID: 0, title: "Video List"),
+      appBar: AppBars(ID: 0, title: "Videos"),
     );
   }
 }

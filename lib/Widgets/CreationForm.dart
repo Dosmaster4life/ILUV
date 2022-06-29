@@ -82,28 +82,9 @@ class _CreationFormState extends State<CreationForm> {
           title: appBarTitle,
         ),
         body: SafeArea(
-            child: Row(
+            child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Expanded(
-                child: Column(
-              children: [
-                Expanded(flex: 1, child: Container()),
-                Expanded(flex: 3, child: Container()),
-                Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: ElevatedButton.icon(
-                      onPressed: () => {
-                        saveItem(),
-                      },
-                      icon: Icon(Icons.save),
-                      label: Text(
-                        "Save",
-                        style: GoogleFonts.montserrat(),
-                      ),
-                    )),
-              ],
-            )),
             Expanded(
                 child: Column(
               children: [
@@ -111,25 +92,54 @@ class _CreationFormState extends State<CreationForm> {
                   "Title",
                   style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
                 ),
-                TextField(
-                  controller: titleController,
+                Center(
+                  child: TextField(
+                    controller: titleController,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 Text("Description"),
-                TextFormField(
-                  controller: descriptionController,
-                  keyboardType: TextInputType.text,
-                  maxLines: 5,
+                Center(
+                  child: TextFormField(
+                    controller: descriptionController,
+                    keyboardType: TextInputType.text,
+                    maxLines: 5,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 Text("Youtube Link"),
-                TextField(
-                  controller: urlController,
+                Center(
+                  child: TextField(
+                    controller: urlController,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 Expanded(flex: 3, child: Container()),
-                Row(children: [CancelButton(context), DeleteButton(context)]),
+                Row(children: [
+                  SaveButton(context),
+                  CancelButton(context),
+                  DeleteButton(context)
+                ]),
               ],
             ))
           ],
         )));
+  }
+
+  Padding SaveButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: ElevatedButton.icon(
+        onPressed: () => {
+          saveItem(),
+        },
+        icon: Icon(Icons.save),
+        label: Text(
+          "Save",
+          style: GoogleFonts.montserrat(),
+        ),
+      ),
+    );
   }
 
   Padding CancelButton(BuildContext context) {

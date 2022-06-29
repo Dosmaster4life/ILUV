@@ -39,7 +39,7 @@ class _loginCheckerState extends State<loginChecker> {
         theme: ThemeData(
           // Define the default brightness and colors.
           brightness: themeBrightness,
-          primaryColor: Colors.lightBlue[800],
+          primaryColor: Color.fromARGB(255, 0, 255, 229),
 
           // Define the default font family.
           fontFamily: 'Montserrat',

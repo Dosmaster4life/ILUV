@@ -6,7 +6,6 @@ import 'package:iluv/screens/KioskMode.dart';
 import 'package:iluv/screens/KioskPlayer.dart';
 import 'package:iluv/screens/SignIn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../screens/Settings.dart';
 
 class AppBars extends StatefulWidget implements PreferredSizeWidget {
@@ -22,7 +21,13 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
   State<AppBars> createState() => _AppBarsState();
 }
 
-var generalMenuItems = <String>['Settings', 'Video', 'Kiosk Mode', 'Logout','View Mode'];
+var generalMenuItems = <String>[
+  'Settings',
+  'Video',
+  'Kiosk Mode',
+  'Logout',
+  'View Mode'
+];
 
 Future<void> signOut(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,7 +48,9 @@ void selectGeneralItem(item, context) {
     case 'Video':
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  KioskPlayer(video: "OjzlfDAy1hM", playlistP: [])),
+        MaterialPageRoute(
+            builder: (context) =>
+                KioskPlayer(video: "OjzlfDAy1hM", playlistP: [])),
       );
       break;
     case 'Logout':
@@ -57,8 +64,7 @@ void selectGeneralItem(item, context) {
       );
       break;
     case 'View Mode':
-      Navigator.push(
-          context,
+      Navigator.push(context,
           MaterialPageRoute(builder: (context) => const AdminViewMode()));
   }
 }
@@ -66,8 +72,6 @@ void selectGeneralItem(item, context) {
 var creationMenuItems = <String>[
   'Delete',
 ];
-
-
 
 AppBar defaultBar(String text, BuildContext context) {
   return AppBar(

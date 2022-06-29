@@ -50,5 +50,6 @@ firebase.json
 firestore.indexes.json
 firestore.rules
 android/app/google-services.json
+android/app/src/main/java/io/flutter/app/FlutterMultiDexApplication.java
 ios/firebase_app_id_file.json
 lib/firebase_options.dart

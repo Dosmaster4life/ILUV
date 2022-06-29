@@ -8,6 +8,7 @@ import 'package:iluv/Widgets/CreationForm.dart';
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:flip_card/flip_card.dart';
 
 class KioskMode extends StatefulWidget {
   const KioskMode({Key? key}) : super(key: key);
@@ -38,37 +39,51 @@ class _KioskModeState extends State<KioskMode> {
                 String finalVideoURL = "";
                 try {
                   var videoURL = document["URL"] ?? "";
+
                   finalVideoURL =
                       YoutubePlayerController.convertUrlToId(videoURL) ?? "";
                 } catch (e) {}
                 try {
                   String url = YoutubePlayerController.getThumbnail(
-                      videoId: finalVideoURL, webp: false);
+                      videoId: finalVideoURL,
+                      webp: false,
+                      quality: ThumbnailQuality.max);
+                  double height = MediaQuery.of(context).size.height;
+                  String description = document["Description"] ?? "";
+                  String title = document["Title"] ?? "";
+
                   return Card(
-                      child: ListTile(
-                          onTap: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreationForm(
-                                      documentExistString: document.id ?? "")),
-                            );
-                          },
-                          title: Text(document["Title"]),
-                          leading: Image(image: NetworkImage(url)),
-                          trailing: IconButton(
-                            icon: Icon(Icons.play_arrow),
+                      elevation: 4.0,
+                      child: Column(
+                        children: [
+                          ListTile(
+                            title: Text(title, textAlign: TextAlign.center),
+                          ),
+                          IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => KioskPlayer(
-                                          video: document["URL"],
-                                          playlistP: [],
-                                        )),
-                              );
+                              FirebaseFirestore.instance
+                                  .collection(
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                  .doc("Admin")
+                                  .set({
+                                "Video": document["URL"],
+                              }).then((value) {});
                             },
-                          )));
+                            icon: Container(
+                              height: height / 3,
+                              child: Ink.image(
+                                image: NetworkImage(url),
+                                fit: BoxFit.fitHeight,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(16.0),
+                            child:
+                                Text(description, textAlign: TextAlign.center),
+                          ),
+                        ],
+                      ));
                 } catch (e) {
                   return Container();
                 }
@@ -81,18 +96,7 @@ class _KioskModeState extends State<KioskMode> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: buildStreamBuilder(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    const CreationForm(documentExistString: "")),
-          );
-        },
-      ),
-      appBar: AppBars(ID: 0, title: "Video List"),
+      appBar: AppBars(ID: 0, title: "Videos"),
     );
   }
 }

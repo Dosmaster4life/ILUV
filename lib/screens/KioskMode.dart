@@ -19,7 +19,6 @@ class KioskMode extends StatefulWidget {
 
 class _KioskModeState extends State<KioskMode> {
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
-
     String user = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection(user).snapshots(),
@@ -62,9 +61,8 @@ class _KioskModeState extends State<KioskMode> {
                             SizedBox(
                                 height: height / 6,
                                 width: width / 2.5,
-                                child: Expanded(
-                                    child: Text(title,
-                                        textAlign: TextAlign.center))),
+                                child:
+                                    Text(title, textAlign: TextAlign.center)),
                             SizedBox(
                               height: height / 3,
                               width: width / 2.5,
@@ -106,9 +104,9 @@ class _KioskModeState extends State<KioskMode> {
           })));
         });
   }
+
   Future<void> lockMode() async {
-    SharedPreferences prefs =
-        await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool("isKiosk", true);
   }
 

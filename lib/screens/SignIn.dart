@@ -59,40 +59,44 @@ class _SignInState extends State<SignIn> {
                     }),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                ButtonTheme(
-                  minWidth: MediaQuery.of(context).size.width * .85,
-                  height: MediaQuery.of(context).size.height * .1,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
+                Padding(
+                  ///provide padding to left, top, right, bottom respectively
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: ButtonTheme(
+                    minWidth: MediaQuery.of(context).size.width * .85,
+                    height: MediaQuery.of(context).size.height * .1,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
                         ),
-                      ),
-                      child: const Text(
-                        "         Login         ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: () async {
-                        if (loginEmail == null) {
-                        } else {
-                          try {
-                            UserCredential login = await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: loginEmail, password: Password);
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setBool("isLoggedIn", true);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Home()));
-                          } on FirebaseAuthException catch (e) {
-                            setState(() {
-                              errorMessage = 'Incorrect Credentials';
-                            });
+                        child: const Text(
+                          "         Login         ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () async {
+                          if (loginEmail == null) {
+                          } else {
+                            try {
+                              UserCredential login = await FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: loginEmail, password: Password);
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setBool("isLoggedIn", true);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Home()));
+                            } on FirebaseAuthException catch (e) {
+                              setState(() {
+                                errorMessage = 'Incorrect Credentials';
+                              });
+                            }
                           }
-                        }
-                      }),
+                        }),
+                  ),
                 ),
               ]),
               ListTile(
@@ -133,20 +137,24 @@ class _SignInState extends State<SignIn> {
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    //   builder: (context) => const SignUp()));
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const SignUp()));
-                  },
-                  child: const Text("        Create Account        ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ))),
+              Padding(
+                ///provide padding to left, top, right, bottom respectively
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 100),
+                child: ElevatedButton(
+                    onPressed: () {
+                      //Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      //   builder: (context) => const SignUp()));
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUp()));
+                    },
+                    child: const Text("        Create Account        ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ))),
+              ),
             ],
           ))
         ]));

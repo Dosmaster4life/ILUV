@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,14 +97,20 @@ class _CreationFormState extends State<CreationForm> {
                         saveItem(),
                       },
                       icon: Icon(Icons.save),
-                      label: Text("Save"),
+                      label: Text(
+                        "Save",
+                        style: GoogleFonts.montserrat(),
+                      ),
                     )),
               ],
             )),
             Expanded(
                 child: Column(
               children: [
-                Text("Title"),
+                Text(
+                  "Title",
+                  style: GoogleFonts.montserrat(fontWeight: FontWeight.bold),
+                ),
                 TextField(
                   controller: titleController,
                 ),
@@ -117,14 +125,14 @@ class _CreationFormState extends State<CreationForm> {
                   controller: urlController,
                 ),
                 Expanded(flex: 3, child: Container()),
-                Row(children: [CancleButton(context), DeleteButton(context)]),
+                Row(children: [CancelButton(context), DeleteButton(context)]),
               ],
             ))
           ],
         )));
   }
 
-  Padding CancleButton(BuildContext context) {
+  Padding CancelButton(BuildContext context) {
     return Padding(
         padding: EdgeInsets.all(16.0),
         child: ElevatedButton.icon(

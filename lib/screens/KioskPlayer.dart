@@ -9,13 +9,12 @@ import '../Widgets/CreationForm.dart';
 class KioskPlayer extends StatefulWidget {
   final String video;
   final List<String> playlistP;
-   KioskPlayer({Key? key, required this.video,required this.playlistP}) : super(key: key);
+  KioskPlayer({Key? key, required this.video, required this.playlistP})
+      : super(key: key);
 
   @override
   State<KioskPlayer> createState() => _KioskPlayerState();
 }
-
-
 
 class _KioskPlayerState extends State<KioskPlayer> {
   @override
@@ -23,31 +22,23 @@ class _KioskPlayerState extends State<KioskPlayer> {
   late YoutubePlayerController _controller;
   String currentVideo = "";
 
-
   bool hasRun = false;
   Widget build(BuildContext context) {
     debugPrint(widget.playlistP.toString());
     String videoURL = widget.video ?? "";
     String? finalVideoURL = YoutubePlayerController.convertUrlToId(videoURL);
 
-     _controller = YoutubePlayerController(
+    _controller = YoutubePlayerController(
       initialVideoId: widget.video ?? "ILCDfIBn1fw",
-      params:  YoutubePlayerParams(
-         playlist: widget.playlistP ?? ['ILCDfIBn1fw'],
+      params: YoutubePlayerParams(
+        playlist: widget.playlistP ?? ['ILCDfIBn1fw'],
         autoPlay: true,
         loop: true,
         mute: false,
-
-
-
         startAt: Duration(seconds: 0),
         showControls: true,
-
-
       ),
     );
-
-
 
     return Scaffold(
         body: SizedBox(
@@ -56,13 +47,13 @@ class _KioskPlayerState extends State<KioskPlayer> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
           Expanded(
-              child: YoutubePlayerControllerProvider( // Provides controller to all the widget below it.
-              controller: _controller,
-              child: YoutubePlayerIFrame(
-                aspectRatio: 16 / 9,
-              ),
-            )),
+              child: YoutubePlayerControllerProvider(
+            // Provides controller to all the widget below it.
+            controller: _controller,
+            child: YoutubePlayerIFrame(
+              aspectRatio: 16 / 9,
+            ),
+          )),
         ])));
   }
-
 }

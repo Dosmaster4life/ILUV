@@ -8,6 +8,7 @@ import 'package:iluv/Widgets/CreationForm.dart';
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:flip_card/flip_card.dart';
 
 class KioskMode extends StatefulWidget {
   const KioskMode({Key? key}) : super(key: key);
@@ -38,37 +39,59 @@ class _KioskModeState extends State<KioskMode> {
                 String finalVideoURL = "";
                 try {
                   var videoURL = document["URL"] ?? "";
+
                   finalVideoURL =
                       YoutubePlayerController.convertUrlToId(videoURL) ?? "";
                 } catch (e) {}
                 try {
                   String url = YoutubePlayerController.getThumbnail(
-                      videoId: finalVideoURL, webp: false);
-                  return Card(
-                      child: ListTile(
-                          onTap: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreationForm(
-                                      documentExistString: document.id ?? "")),
-                            );
-                          },
-                          title: Text(document["Title"]),
-                          leading: Image(image: NetworkImage(url)),
-                          trailing: IconButton(
-                            icon: Icon(Icons.play_arrow),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => KioskPlayer(
-                                          video: document["URL"],
-                                          playlistP: [],
-                                        )),
-                              );
-                            },
-                          )));
+                      videoId: finalVideoURL,
+                      webp: false,
+                      quality: ThumbnailQuality.max);
+                  double height = MediaQuery.of(context).size.height;
+                  String description = document["Description"] ?? "";
+
+                  return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FlipCard(
+                        direction: FlipDirection.VERTICAL,
+                        back: Card(
+                            shadowColor: Colors.transparent,
+                            child: ListTile(
+                                minVerticalPadding: height / 5,
+                                leading: Text(description,
+                                    textAlign: TextAlign.center))),
+                        front: Card(
+                            shadowColor: Colors.transparent,
+                            child: Expanded(
+                              child: ListTile(
+                                  minVerticalPadding: height / 5,
+                                  //title: Text(document["Title"]),
+                                  trailing: GestureDetector(
+                                      onTap: () {},
+                                      child: SizedBox(
+                                        height: double.infinity,
+                                        child: Expanded(
+                                          child: Image(
+                                              fit: BoxFit.fitHeight,
+                                              image: NetworkImage(url)),
+                                        ),
+                                      )),
+                                  leading: IconButton(
+                                    icon: Icon(Icons.play_arrow),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => KioskPlayer(
+                                                  video: document["URL"],
+                                                  playlistP: [],
+                                                )),
+                                      );
+                                    },
+                                  )),
+                            )),
+                      ));
                 } catch (e) {
                   return Container();
                 }

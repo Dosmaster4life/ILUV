@@ -15,39 +15,37 @@ class AdminViewMode extends StatefulWidget {
 class _AdminViewModeState extends State<AdminViewMode> {
   @override
   int currentVideo = 0;
-  final Stream _usersStream = FirebaseFirestore.instance.collection(
-      FirebaseAuth.instance.currentUser!.uid).doc("Admin").snapshots();
-  final Stream<DocumentSnapshot> _usersStream2 =
-  FirebaseFirestore.instance.collection(FirebaseAuth.instance.currentUser!.uid).doc("Admin").snapshots(includeMetadataChanges: true);
+  final Stream _usersStream = FirebaseFirestore.instance
+      .collection(FirebaseAuth.instance.currentUser!.uid)
+      .doc("Admin")
+      .snapshots();
+  final Stream<DocumentSnapshot> _usersStream2 = FirebaseFirestore.instance
+      .collection(FirebaseAuth.instance.currentUser!.uid)
+      .doc("Admin")
+      .snapshots(includeMetadataChanges: true);
   String oldVideo = "";
 
   List<String> playlistPa = [];
-  void  buildPlaylist() {
-
+  void buildPlaylist() {
     FirebaseFirestore.instance
         .collection(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((QuerySnapshot querySnapshot) {
-
       querySnapshot.docs.forEach((doc) {
         try {
           String? adder = YoutubePlayerController.convertUrlToId(doc["URL"]);
           playlistPa.add(adder!.toString());
-        }catch(e) {
-
-        }
-
+        } catch (e) {}
       });
-
-
     });
-
   }
+
   Widget build(BuildContext context) {
     buildPlaylist();
     return StreamBuilder<DocumentSnapshot>(
       stream: _usersStream2,
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
           return Text('Something went wrong');
         }
@@ -55,26 +53,25 @@ class _AdminViewModeState extends State<AdminViewMode> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Text("Loading");
         }
-        if(oldVideo != snapshot.data!["Video"]) {
-
+        if (oldVideo != snapshot.data!["Video"]) {
           oldVideo = snapshot.data!["Video"];
-
         }
         debugPrint(snapshot.data!["Video"]);
-        String? d = YoutubePlayerController.convertUrlToId(snapshot.data!["Video"]) ?? "";
+        String? d =
+            YoutubePlayerController.convertUrlToId(snapshot.data!["Video"]) ??
+                "";
         List<String> temp = [d];
-        List<String> playList = temp + playlistPa;
+        Set<String> playList = (temp + playlistPa).toSet();
 
         try {
-          return  KioskPlayer(key: ValueKey(snapshot.data!["Video"]),video: snapshot.data!["Video"], playlistP: playList);
-        }catch(e) {
+          return KioskPlayer(
+              key: ValueKey(snapshot.data!["Video"]),
+              video: snapshot.data!["Video"],
+              playlistP: playList);
+        } catch (e) {
           return Text(snapshot.data!["Video"]);
         }
-
-
       },
     );
   }
 }
-
-

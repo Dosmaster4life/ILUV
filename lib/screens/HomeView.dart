@@ -80,7 +80,7 @@ class _Screen1State extends State<Screen1> {
                               MaterialPageRoute(
                                   builder: (context) => KioskPlayer(
                                         video: document["URL"],
-                                        playlistP: [d],
+                                        playlistP: {d},
                                       )),
                             );
                           },

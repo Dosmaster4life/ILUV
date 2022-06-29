@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class KioskMode extends StatefulWidget {
   const KioskMode({Key? key}) : super(key: key);
@@ -62,29 +63,51 @@ class _KioskModeState extends State<KioskMode> {
                           String description = document["Description"] ?? "";
                           String title = document["Title"] ?? "";
 
-                          return Card(
-                              child: Column(children: [
-                            Text(title, textAlign: TextAlign.center),
-                          Expanded(
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.transparent),
-                                  onPressed: () {
-                                    FirebaseFirestore.instance
-                                        .collection(FirebaseAuth
-                                            .instance.currentUser!.uid)
-                                        .doc("Admin")
-                                        .set({
-                                      "Video": document["URL"],
-                                    }).then((value) {});
-                                  },
-                                  child: Ink.image(
+                          return Expanded(
+                            child: Card(
+                                child: Column(children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(title,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0,
+                                          fontFamily: 'Montserrat'))),
+                              Expanded(
+                                  child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent),
+                                onPressed: () {
+                                  FirebaseFirestore.instance
+                                      .collection(FirebaseAuth
+                                          .instance.currentUser!.uid)
+                                      .doc("Admin")
+                                      .set({
+                                    "Video": document["URL"],
+                                  }).then((value) {});
+                                },
+                                child: Stack(children: [
+                                  Align(
+                                      alignment: Alignment.center,
+                                      child: Icon(Icons.play_arrow)),
+                                  Ink.image(
                                     image: NetworkImage(url),
-                                    fit: BoxFit.fitHeight,
+                                    fit: BoxFit.contain,
                                   ),
-                                )),
-                            Text(description, textAlign: TextAlign.center),
-                          ]));
+                                ]),
+                              )),
+                              Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Text(description,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                        fontFamily: 'Montserrat',
+                                      ))),
+                            ])),
+                          );
                         } catch (e) {
                           return Container();
                         }

@@ -65,7 +65,6 @@ class _Screen1State extends State<Screen1> {
     }
   }
   var generalMenuItems = <String>[
-    'Settings',
     'Kiosk Mode',
     'View Mode',
     'Logout'

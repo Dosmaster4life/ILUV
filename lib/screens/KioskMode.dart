@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/Widgets/CreationForm.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
@@ -18,6 +19,7 @@ class KioskMode extends StatefulWidget {
 
 class _KioskModeState extends State<KioskMode> {
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
+
     String user = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection(user).snapshots(),
@@ -104,11 +106,17 @@ class _KioskModeState extends State<KioskMode> {
           })));
         });
   }
+  Future<void> lockMode() async {
+    SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+    prefs.setBool("isKiosk", true);
+  }
 
   Widget build(BuildContext context) {
+    lockMode();
     return Scaffold(
       body: buildStreamBuilder(),
-      appBar: AppBars(ID: 0, title: "Videos"),
+      appBar: AppBars(ID: 4, title: "Videos"),
     );
   }
 }

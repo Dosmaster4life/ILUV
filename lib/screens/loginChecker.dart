@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iluv/main.dart';
 import 'package:iluv/screens/Home.dart';
+import 'package:iluv/screens/KioskMode.dart';
 
 import 'SignIn.dart';
 
@@ -19,7 +20,10 @@ class _loginCheckerState extends State<loginChecker> {
   int currentPage = 0;
 
   Future<void> checkSignedIn() async {
-    if (FirebaseAuth.instance.currentUser != null || loggedIn) {
+    if(kioskMode) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const KioskMode()));
+    }else if (FirebaseAuth.instance.currentUser != null || loggedIn) {
       // check if user is in kiosk mode next through firebase
       currentPage = 1;
 
@@ -31,6 +35,7 @@ class _loginCheckerState extends State<loginChecker> {
     // Current Home Screens
     const SignIn(),
     const Home(),
+
   ];
 
   Widget build(BuildContext context) {

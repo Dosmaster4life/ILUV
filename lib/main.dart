@@ -9,12 +9,25 @@ import 'firebase_options.dart';
 bool isWeb = false;
 int currentIndex = 0;
 bool loggedIn = false;
+bool kioskMode = false;
 
 getLoggedInStatus() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   //Return bool
   bool? boolValue = prefs.getBool('isLoggedIn');
+
   return boolValue;
+}
+getKiosk() async {
+  try {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    bool? kioskMode = prefs.getBool('isKiosk');
+    return kioskMode;
+  }catch(e) {
+    return false;
+  }
+
 }
 
 Future<void> main() async {
@@ -24,6 +37,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   loggedIn = await getLoggedInStatus() ?? false;
+  kioskMode = await getKiosk() ?? false;
   debugPrint(loggedIn.toString());
   debugShowCheckedModeBanner:false;
 

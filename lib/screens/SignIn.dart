@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iluv/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home.dart';
@@ -84,7 +85,9 @@ class _SignInState extends State<SignIn> {
                                       email: loginEmail, password: Password);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              prefs.setBool("isLoggedIn", true);
+                              prefs.setBool("isLoggedIn", false);
+                              prefs.setBool("isKiosk", false);
+                              kioskMode = false;
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(

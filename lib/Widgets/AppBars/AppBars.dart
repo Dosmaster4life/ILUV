@@ -24,13 +24,18 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
 var generalMenuItems = <String>[
   'Settings',
   'Kiosk Mode',
-  'Logout',
-  'View Mode'
+  'View Mode',
+  'Logout'
+];
+
+var kioskItems = <String>[
+  'Login'
 ];
 
 Future<void> signOut(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool("isLoggedIn", false);
+  prefs.setBool("isKiosk", false);
   await FirebaseAuth.instance.signOut().then((value) =>
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const SignIn())));
@@ -49,7 +54,7 @@ void selectGeneralItem(item, context) {
       break;
     case 'Kiosk Mode':
       // In the future, we need to change a firebase variable to only allow view access in Kiosk Mode.
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const KioskMode()),
       );
@@ -57,6 +62,16 @@ void selectGeneralItem(item, context) {
     case 'View Mode':
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const AdminViewMode()));
+  }
+}
+void selectKioskItems(item, context) {
+  switch (item) {
+    case 'Login':
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const SignIn()),
+      );
+      break;
   }
 }
 
@@ -72,6 +87,23 @@ AppBar defaultBar(String text, BuildContext context) {
         selectGeneralItem(item, context);
       }, itemBuilder: (BuildContext context) {
         return generalMenuItems.map((String item) {
+          return PopupMenuItem<String>(
+            value: item,
+            child: Text(item),
+          );
+        }).toList();
+      })
+    ],
+  );
+}
+AppBar kioskBar(String text, BuildContext context) {
+  return AppBar(
+    title: Text(text),
+    actions: <Widget>[
+      PopupMenuButton<String>(onSelected: (item) {
+        selectKioskItems(item, context);
+      }, itemBuilder: (BuildContext context) {
+        return kioskItems.map((String item) {
           return PopupMenuItem<String>(
             value: item,
             child: Text(item),
@@ -104,6 +136,10 @@ class _AppBarsState extends State<AppBars> {
       case 3:
         return CreationBar(widget.title, context);
         break;
+      case 4:
+        return kioskBar(widget.title, context);
+        break;
+
     }
 
     return defaultBar(widget.title, context);

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../main.dart';
 import 'Home.dart';
 import 'SignIn.dart';
 
@@ -72,6 +73,8 @@ class _SignUpState extends State<SignUp> {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
                           prefs.setBool("isLoggedIn", true);
+                          prefs.setBool("isKiosk", true);
+                          kioskMode =  false;
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

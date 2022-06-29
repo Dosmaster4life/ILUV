@@ -179,7 +179,6 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<void> LoginAction() async {
-    debugPrint("DEBUG: Logged in my dude!");
     if (loginEmail == null) {
     } else {
       try {

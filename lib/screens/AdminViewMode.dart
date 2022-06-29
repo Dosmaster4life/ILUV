@@ -51,7 +51,7 @@ class _AdminViewModeState extends State<AdminViewMode> {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
+          return Container();
         }
         if (oldVideo != snapshot.data!["Video"]) {
           oldVideo = snapshot.data!["Video"];

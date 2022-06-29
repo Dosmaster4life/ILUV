@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -17,6 +21,7 @@ class KioskPlayer extends StatefulWidget {
 }
 
 class _KioskPlayerState extends State<KioskPlayer> {
+
   @override
   bool checkUpdater = true;
   late YoutubePlayerController _controller;
@@ -24,17 +29,25 @@ class _KioskPlayerState extends State<KioskPlayer> {
 
   bool hasRun = false;
   Widget build(BuildContext context) {
+    bool mute = false;
+    if(kIsWeb) {
+      mute = true;
+    }
     debugPrint(widget.playlistP.toString());
     String videoURL = widget.video ?? "";
     String? finalVideoURL = YoutubePlayerController.convertUrlToId(videoURL);
 
     _controller = YoutubePlayerController(
+
       initialVideoId: widget.video ?? "ILCDfIBn1fw",
       params: YoutubePlayerParams(
         playlist: widget.playlistP.toList() ?? ['ILCDfIBn1fw'],
+        mute: mute,
         autoPlay: true,
         loop: true,
-        mute: false,
+        enableKeyboard: true,
+
+
         startAt: Duration(seconds: 0),
         showControls: true,
       ),
@@ -51,9 +64,12 @@ class _KioskPlayerState extends State<KioskPlayer> {
             // Provides controller to all the widget below it.
             controller: _controller,
             child: YoutubePlayerIFrame(
+
               aspectRatio: 16 / 9,
             ),
           )),
         ])));
   }
+
+
 }

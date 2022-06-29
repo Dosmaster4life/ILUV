@@ -8,7 +8,6 @@ import 'package:iluv/Widgets/CreationForm.dart';
 import '../Widgets/AppBars/AppBars.dart';
 import 'KioskPlayer.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:flip_card/flip_card.dart';
 
 class KioskMode extends StatefulWidget {
   const KioskMode({Key? key}) : super(key: key);
@@ -49,41 +48,54 @@ class _KioskModeState extends State<KioskMode> {
                       webp: false,
                       quality: ThumbnailQuality.max);
                   double height = MediaQuery.of(context).size.height;
+                  double width = MediaQuery.of(context).size.width;
                   String description = document["Description"] ?? "";
                   String title = document["Title"] ?? "";
 
-                  return Card(
-                      elevation: 4.0,
-                      child: Column(
-                        children: [
-                          ListTile(
-                            title: Text(title, textAlign: TextAlign.center),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              FirebaseFirestore.instance
-                                  .collection(
-                                      FirebaseAuth.instance.currentUser!.uid)
-                                  .doc("Admin")
-                                  .set({
-                                "Video": document["URL"],
-                              }).then((value) {});
-                            },
-                            icon: Container(
+                  return SafeArea(
+                    child: Card(
+                        elevation: 4.0,
+                        child: Row(children: [
+                          Column(children: [
+                            SizedBox(
+                                height: height / 6,
+                                width: width / 2.5,
+                                child: Expanded(
+                                    child: Text(title,
+                                        textAlign: TextAlign.center))),
+                            SizedBox(
                               height: height / 3,
-                              child: Ink.image(
-                                image: NetworkImage(url),
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(16.0),
-                            child:
-                                Text(description, textAlign: TextAlign.center),
-                          ),
-                        ],
-                      ));
+                              width: width / 2.5,
+                              child: Text(description,
+                                  textAlign: TextAlign.center),
+                            )
+                          ]),
+                          Column(children: [
+                            Container(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  alignment: Alignment.centerRight,
+                                  height: height / 2,
+                                  width: width / 2,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      FirebaseFirestore.instance
+                                          .collection(FirebaseAuth
+                                              .instance.currentUser!.uid)
+                                          .doc("Admin")
+                                          .set({
+                                        "Video": document["URL"],
+                                      }).then((value) {});
+                                    },
+                                    child: Ink.image(
+                                      image: NetworkImage(url),
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  ),
+                                )),
+                          ])
+                        ])),
+                  );
                 } catch (e) {
                   return Container();
                 }

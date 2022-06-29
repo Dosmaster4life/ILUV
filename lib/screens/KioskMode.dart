@@ -21,7 +21,10 @@ class _KioskModeState extends State<KioskMode> {
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
     String user = FirebaseAuth.instance.currentUser!.uid;
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection(user).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection(user)
+            .where("URL", isNull: false)
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');
@@ -34,72 +37,59 @@ class _KioskModeState extends State<KioskMode> {
               builder: (BuildContext context, BoxConstraints constraints) {
             return Column(children: <Widget>[
               Expanded(
-                  child: ListView(
+                  child: GridView.count(
+                      crossAxisCount: 3,
+                      padding: const EdgeInsets.all(4.0),
+                      mainAxisSpacing: 4.0,
+                      crossAxisSpacing: 4.0,
                       children: snapshot.data!.docs.map((document) {
-                String finalVideoURL = "";
-                try {
-                  var videoURL = document["URL"] ?? "";
+                        String finalVideoURL = "";
+                        try {
+                          var videoURL = document["URL"] ?? "";
 
-                  finalVideoURL =
-                      YoutubePlayerController.convertUrlToId(videoURL) ?? "";
-                } catch (e) {}
-                try {
-                  String url = YoutubePlayerController.getThumbnail(
-                      videoId: finalVideoURL,
-                      webp: false,
-                      quality: ThumbnailQuality.max);
-                  double height = MediaQuery.of(context).size.height;
-                  double width = MediaQuery.of(context).size.width;
-                  String description = document["Description"] ?? "";
-                  String title = document["Title"] ?? "";
+                          finalVideoURL =
+                              YoutubePlayerController.convertUrlToId(
+                                      videoURL) ??
+                                  "";
+                        } catch (e) {}
+                        try {
+                          String url = YoutubePlayerController.getThumbnail(
+                              videoId: finalVideoURL,
+                              webp: false,
+                              quality: ThumbnailQuality.max);
+                          double height = MediaQuery.of(context).size.height;
+                          double width = MediaQuery.of(context).size.width;
+                          String description = document["Description"] ?? "";
+                          String title = document["Title"] ?? "";
 
-                  return SafeArea(
-                    child: Card(
-                        elevation: 4.0,
-                        child: Row(children: [
-                          Column(children: [
-                            SizedBox(
-                                height: height / 6,
-                                width: width / 2.5,
-                                child:
-                                    Text(title, textAlign: TextAlign.center)),
-                            SizedBox(
-                              height: height / 3,
-                              width: width / 2.5,
-                              child: Text(description,
-                                  textAlign: TextAlign.center),
-                            )
-                          ]),
-                          Column(children: [
+                          return Card(
+                              child: Column(children: [
+                            Text(title, textAlign: TextAlign.center),
                             Container(
-                                alignment: Alignment.centerRight,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  height: height / 2,
-                                  width: width / 2,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      FirebaseFirestore.instance
-                                          .collection(FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                          .doc("Admin")
-                                          .set({
-                                        "Video": document["URL"],
-                                      }).then((value) {});
-                                    },
-                                    child: Ink.image(
-                                      image: NetworkImage(url),
-                                      fit: BoxFit.fitHeight,
-                                    ),
+                                height: height / 3,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.transparent),
+                                  onPressed: () {
+                                    FirebaseFirestore.instance
+                                        .collection(FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .doc("Admin")
+                                        .set({
+                                      "Video": document["URL"],
+                                    }).then((value) {});
+                                  },
+                                  child: Ink.image(
+                                    image: NetworkImage(url),
+                                    fit: BoxFit.fitHeight,
                                   ),
                                 )),
-                          ])
-                        ])),
-                  );
-                } catch (e) {
-                  return Container();
-                }
-              }).toList()))
+                            Text(description, textAlign: TextAlign.center),
+                          ]));
+                        } catch (e) {
+                          return Container();
+                        }
+                      }).toList()))
             ]);
           })));
         });

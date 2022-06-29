@@ -89,6 +89,9 @@ class _Screen1State extends State<Screen1> {
             return Text("Loading");
           }
 
+          if(snapshot.data?.docs.length == 0 ||snapshot.data?.docs.length == 1 ) {
+            return Text("Add videos to start!", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),);
+          }
           return ListView(
             children: snapshot.data!.docs.map((document) {
               String finalVideoURL = "";

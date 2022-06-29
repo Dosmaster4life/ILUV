@@ -65,11 +65,10 @@ class _KioskModeState extends State<KioskMode> {
                           return Card(
                               child: Column(children: [
                             Text(title, textAlign: TextAlign.center),
-                            Container(
-                                height: height / 3,
+                          Expanded(
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.transparent),
+                                      primary: Colors.transparent),
                                   onPressed: () {
                                     FirebaseFirestore.instance
                                         .collection(FirebaseAuth

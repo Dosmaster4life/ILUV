@@ -33,7 +33,7 @@ class _loginCheckerState extends State<loginChecker> {
 
   List<Widget> screensToReturn = <Widget>[
     // Current Home Screens
-    const SignIn(),
+    const SignIn(kioskLoader: false,),
     const Home(),
 
   ];
@@ -41,6 +41,7 @@ class _loginCheckerState extends State<loginChecker> {
   Widget build(BuildContext context) {
     checkSignedIn();
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           // Define the default brightness and colors.
           brightness: themeBrightness,

@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:iluv/Widgets/CreationForm.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import '../Widgets/AppBars/AppBars.dart';
+import 'AdminViewMode.dart';
+import 'KioskMode.dart';
 import 'KioskPlayer.dart';
+import 'Settings.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({Key? key}) : super(key: key);
@@ -38,6 +41,35 @@ class _Screen1State extends State<Screen1> {
 
 
   }
+  void selectGeneralItem(item, context) {
+    switch (item) {
+      case 'Settings':
+      /*  Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  Settings()),
+        );*/
+        break;
+      case 'Logout':
+        signOut(context);
+        break;
+      case 'Kiosk Mode':
+      // In the future, we need to change a firebase variable to only allow view access in Kiosk Mode.
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const KioskMode()),
+        );
+        break;
+      case 'View Mode':
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AdminViewMode()));
+    }
+  }
+  var generalMenuItems = <String>[
+    'Settings',
+    'Kiosk Mode',
+    'View Mode',
+    'Logout'
+  ];
 
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
     String user = "a";
@@ -77,7 +109,7 @@ class _Screen1State extends State<Screen1> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => CreationForm(
-                                    documentExistString: document.id ?? "")),
+                                    documentExistString: document.id)),
                           );
                         },
                         title: new Text(document["Title"]),
@@ -122,7 +154,21 @@ class _Screen1State extends State<Screen1> {
           );
         },
       ),
-      appBar: AppBars(ID: 0, title: "Video List"),
+      appBar:  AppBar(
+        title: Text("Home"),
+    actions: <Widget>[
+    PopupMenuButton<String>(onSelected: (item) {
+    selectGeneralItem(item, context);
+    }, itemBuilder: (BuildContext context) {
+    return generalMenuItems.map((String item) {
+    return PopupMenuItem<String>(
+    value: item,
+    child: Text(item),
     );
+    }).toList();
+    })
+    ],
+    ));
   }
+
 }

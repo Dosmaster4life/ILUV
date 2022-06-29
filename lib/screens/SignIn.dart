@@ -2,13 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iluv/main.dart';
+import 'package:iluv/screens/KioskMode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Home.dart';
 import 'SignUp.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  final bool kioskLoader;
+  const SignIn({Key? key, required this.kioskLoader}) : super(key: key);
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -20,6 +22,10 @@ class _SignInState extends State<SignIn> {
 
   @override
   Scaffold settingsList() {
+    String buttonText = "        Create Account        ";
+    if(widget.kioskLoader) {
+      buttonText = "        Return to Kiosk        ";
+    }
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -147,12 +153,21 @@ class _SignInState extends State<SignIn> {
                     onPressed: () {
                       //Navigator.of(context).pushReplacement(MaterialPageRoute(
                       //   builder: (context) => const SignUp()));
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignUp()));
+                      if(widget.kioskLoader) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const KioskMode()));
+                      }else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignUp()));
+                      }
+
                     },
-                    child: const Text("        Create Account        ",
+
+                    child:  Text(buttonText,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18,
@@ -164,7 +179,6 @@ class _SignInState extends State<SignIn> {
   }
 
   Future<void> LoginAction() async {
-    debugPrint("DEBUG: Logged in my dude!");
     if (loginEmail == null) {
     } else {
       try {

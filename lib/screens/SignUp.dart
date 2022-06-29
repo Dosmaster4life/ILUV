@@ -100,18 +100,20 @@ class _SignUpState extends State<SignUp> {
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              ElevatedButton(
+              Padding(
+                  padding: EdgeInsets.fromLTRB(20, 60, 20, 100),
+                  child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SignIn()));
+                            builder: (context) => const SignIn(kioskLoader: false,)));
                   },
                   child: const Text("    Return to Sign In    ",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ))),
+                      )))),
             ],
           ))
         ]));

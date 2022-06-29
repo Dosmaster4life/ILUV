@@ -50,7 +50,7 @@ void selectGeneralItem(item, context) {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                KioskPlayer(video: "OjzlfDAy1hM", playlistP: [])),
+                KioskPlayer(video: "OjzlfDAy1hM", playlistP: Set())),
       );
       break;
     case 'Logout':

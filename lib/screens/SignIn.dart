@@ -61,7 +61,7 @@ class _SignInState extends State<SignIn> {
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 Padding(
                   ///provide padding to left, top, right, bottom respectively
-                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                   child: ButtonTheme(
                     minWidth: MediaQuery.of(context).size.width * .85,
                     height: MediaQuery.of(context).size.height * .1,
@@ -139,7 +139,7 @@ class _SignInState extends State<SignIn> {
               ),
               Padding(
                 ///provide padding to left, top, right, bottom respectively
-                padding: EdgeInsets.fromLTRB(20, 20, 20, 100),
+                padding: EdgeInsets.fromLTRB(20, 60, 20, 100),
                 child: ElevatedButton(
                     onPressed: () {
                       //Navigator.of(context).pushReplacement(MaterialPageRoute(

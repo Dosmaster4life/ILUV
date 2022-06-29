@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,7 +80,7 @@ class _Screen1State extends State<Screen1> {
                               MaterialPageRoute(
                                   builder: (context) => KioskPlayer(
                                         video: document["URL"],
-                                        playlistP: [d],
+                                        playlistP: {d},
                                       )),
                             );
                           },

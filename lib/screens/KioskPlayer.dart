@@ -8,7 +8,7 @@ import '../Widgets/CreationForm.dart';
 
 class KioskPlayer extends StatefulWidget {
   final String video;
-  final List<String> playlistP;
+  final Set<String> playlistP;
   KioskPlayer({Key? key, required this.video, required this.playlistP})
       : super(key: key);
 
@@ -31,7 +31,7 @@ class _KioskPlayerState extends State<KioskPlayer> {
     _controller = YoutubePlayerController(
       initialVideoId: widget.video ?? "ILCDfIBn1fw",
       params: YoutubePlayerParams(
-        playlist: widget.playlistP ?? ['ILCDfIBn1fw'],
+        playlist: widget.playlistP.toList() ?? ['ILCDfIBn1fw'],
         autoPlay: true,
         loop: true,
         mute: false,

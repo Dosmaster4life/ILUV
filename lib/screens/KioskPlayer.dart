@@ -34,14 +34,14 @@ class _KioskPlayerState extends State<KioskPlayer> {
       mute = true;
     }
     debugPrint(widget.playlistP.toString());
-    String videoURL = widget.video ?? "";
+    String videoURL = widget.video;
     String? finalVideoURL = YoutubePlayerController.convertUrlToId(videoURL);
 
     _controller = YoutubePlayerController(
 
-      initialVideoId: widget.video ?? "ILCDfIBn1fw",
+      initialVideoId: widget.video,
       params: YoutubePlayerParams(
-        playlist: widget.playlistP.toList() ?? ['ILCDfIBn1fw'],
+        playlist: widget.playlistP.toList(),
         mute: mute,
         autoPlay: true,
         loop: true,

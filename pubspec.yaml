@@ -61,9 +61,9 @@ flutter:
   fonts:
   - family: Montserrat
     fonts:
-      - asset: fonts/Montserrat/static/Montserrat-Regular.ttf
+      - asset: assets/fonts/Montserrat/static/Montserrat-Regular.ttf
         weight: 300
-      - asset: fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf
+      - asset: assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf
         style: italic
         weight: 900
   # The following line ensures that the Material Icons font is

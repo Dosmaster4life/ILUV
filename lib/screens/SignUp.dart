@@ -100,7 +100,9 @@ class _SignUpState extends State<SignUp> {
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-              ElevatedButton(
+              Padding(
+                  padding: EdgeInsets.fromLTRB(20, 60, 20, 100),
+                  child: ElevatedButton(
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
@@ -111,7 +113,7 @@ class _SignUpState extends State<SignUp> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                      ))),
+                      )))),
             ],
           ))
         ]));

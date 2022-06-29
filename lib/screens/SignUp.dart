@@ -105,7 +105,7 @@ class _SignUpState extends State<SignUp> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SignIn()));
+                            builder: (context) => const SignIn(kioskLoader: false,)));
                   },
                   child: const Text("    Return to Sign In    ",
                       style: TextStyle(

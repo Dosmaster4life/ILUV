@@ -38,7 +38,7 @@ Future<void> signOut(BuildContext context) async {
   prefs.setBool("isKiosk", false);
   await FirebaseAuth.instance.signOut().then((value) =>
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const SignIn())));
+          context, MaterialPageRoute(builder: (context) => const SignIn(kioskLoader: false,))));
 }
 
 void selectGeneralItem(item, context) {
@@ -69,7 +69,7 @@ void selectKioskItems(item, context) {
     case 'Login':
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const SignIn()),
+        MaterialPageRoute(builder: (context) => const SignIn(kioskLoader: true,)),
       );
       break;
   }

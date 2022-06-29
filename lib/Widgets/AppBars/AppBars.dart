@@ -23,7 +23,6 @@ class AppBars extends StatefulWidget implements PreferredSizeWidget {
 
 var generalMenuItems = <String>[
   'Settings',
-  'Video',
   'Kiosk Mode',
   'Logout',
   'View Mode'
@@ -43,14 +42,6 @@ void selectGeneralItem(item, context) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const Settings()),
-      );
-      break;
-    case 'Video':
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                KioskPlayer(video: "OjzlfDAy1hM", playlistP: Set())),
       );
       break;
     case 'Logout':

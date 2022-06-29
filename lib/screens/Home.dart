@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Montserrat'),
         ),
       ),
-      home: Screen1(),
+      home: const Screen1(),
     );
   }
 }

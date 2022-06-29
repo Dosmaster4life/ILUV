@@ -18,12 +18,14 @@ getLoggedInStatus() async {
 }
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   loggedIn = await getLoggedInStatus() ?? false;
   debugPrint(loggedIn.toString());
+  debugShowCheckedModeBanner:false;
 
   if (kIsWeb) {
     isWeb = true;

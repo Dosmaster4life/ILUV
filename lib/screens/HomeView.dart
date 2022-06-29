@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,24 +18,35 @@ class Screen1 extends StatefulWidget {
 
 class _Screen1State extends State<Screen1> {
   Future<void> firstRun() async {
-    final docSnapshot = await FirebaseFirestore.instance
-        .collection(FirebaseAuth.instance.currentUser!.uid)
-        .doc("Admin")
-        .get();
-
-    if (docSnapshot.exists) {
-    } else {
-      FirebaseFirestore.instance
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
           .collection(FirebaseAuth.instance.currentUser!.uid)
           .doc("Admin")
-          .set({
-        "Video": "",
-      }).then((value) {});
+          .get();
+
+      if (docSnapshot.exists) {} else {
+        FirebaseFirestore.instance
+            .collection(FirebaseAuth.instance.currentUser!.uid)
+            .doc("Admin")
+            .set({
+          "Video": "",
+        }).then((value) {});
+      }
+    }catch(e) {
+
     }
+
+
   }
 
   StreamBuilder<QuerySnapshot> buildStreamBuilder() {
-    String user = FirebaseAuth.instance.currentUser!.uid;
+    String user = "a";
+    try {
+      user = FirebaseAuth.instance.currentUser!.uid;
+    }catch(e) {
+
+    }
+
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection(user).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

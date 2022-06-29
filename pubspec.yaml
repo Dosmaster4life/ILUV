@@ -40,6 +40,7 @@ dependencies:
   firebase_core: ^1.18.0
   shared_preferences: ^2.0.15
   flip_card: ^0.6.0
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:

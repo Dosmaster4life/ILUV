@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/Home.dart';
 import 'AppBars/AppBars.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CreationForm extends StatefulWidget {
   const CreationForm({Key? key, required this.documentExistString})
@@ -55,10 +56,12 @@ class _CreationFormState extends State<CreationForm> {
       }
     });
   }
-  void  deleteDocument(){
+
+  void deleteDocument() {
     FirebaseFirestore.instance
         .collection(FirebaseAuth.instance.currentUser!.uid)
-        .doc(widget.documentExistString).delete();
+        .doc(widget.documentExistString)
+        .delete();
   }
 
   Widget build(BuildContext context) {
@@ -66,11 +69,15 @@ class _CreationFormState extends State<CreationForm> {
       getDocumentData();
     }
 
+    String appBarTitle = "Add Video";
+    if (widget.documentExistString != "") {
+      appBarTitle = "Edit Video";
+    }
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBars(
           ID: 3,
-          title: "Add Video",
+          title: appBarTitle,
         ),
         body: SafeArea(
             child: Row(
@@ -110,10 +117,7 @@ class _CreationFormState extends State<CreationForm> {
                   controller: urlController,
                 ),
                 Expanded(flex: 3, child: Container()),
-                Row(children: [
-                  CancleButton(context),
-                  DeleteButton(context)
-                ]),
+                Row(children: [CancleButton(context), DeleteButton(context)]),
               ],
             ))
           ],
@@ -122,17 +126,15 @@ class _CreationFormState extends State<CreationForm> {
 
   Padding CancleButton(BuildContext context) {
     return Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: ElevatedButton.icon(
-                      onPressed: () => {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Home())),
-                      },
-                      icon: Icon(Icons.cancel),
-                      label: Text("Cancel"),
-                    ));
+        padding: EdgeInsets.all(16.0),
+        child: ElevatedButton.icon(
+          onPressed: () => {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => const Home())),
+          },
+          icon: Icon(Icons.cancel),
+          label: Text("Cancel"),
+        ));
   }
 
   Widget DeleteButton(BuildContext context) {

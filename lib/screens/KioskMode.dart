@@ -74,7 +74,7 @@ class _KioskModeState extends State<KioskMode> {
                             Expanded(
                                 child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.transparent,
+                                  primary: Colors.transparent,
                                   shadowColor: Colors.transparent),
                               onPressed: () {
                                 FirebaseFirestore.instance
